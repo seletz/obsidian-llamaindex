@@ -5,11 +5,14 @@ from llama_index import (
     VectorStoreIndex,
     SimpleDirectoryReader,
     StorageContext,
+    ServiceContext,
     load_index_from_storage,
 )
+from llama_index.llms import Ollama
 
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
-logging.getLogger().addHandler(logging.StreamHandler(stream=sys.stdout))
+llm =  Ollama(model="llama2")
+
+service_context = ServiceContext.from_defaults(llm=llm)
 
 # check if storage already exists
 if not os.path.exists("./storage"):
@@ -24,6 +27,6 @@ else:
     index = load_index_from_storage(storage_context)
 
 # either way we can now query the index
-query_engine = index.as_query_engine()
+query_engine = index.as_query_engine(service_context=service_context)
 response = query_engine.query("What did the author do growing up?")
 print(response)
