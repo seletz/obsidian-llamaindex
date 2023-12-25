@@ -7,6 +7,8 @@ name = "pypi"
 ipython = "*"
 llama-index = "*"
 setuptools = "*"
+pypdf = "*"
+pillow = "*"
 
 [dev-packages]
 ipdb = "*"
